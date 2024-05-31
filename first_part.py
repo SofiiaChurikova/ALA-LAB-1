@@ -34,10 +34,10 @@ def axis_reflection(object, axis):
 def shear_axis(object, angle, axis):
     rad_angle = np.radians(angle)
     if axis == "x":
-        shear_matrix = np.array([[1, 0], [np.tan(rad_angle), 1]])
+        shear_matrix = np.array([[1, 0], [rad_angle, 1]])
         shear_object = np.dot(object, shear_matrix)
     if axis == "y":
-        shear_matrix = np.array([[1, np.tan(rad_angle)], [0, 1]])
+        shear_matrix = np.array([[1, rad_angle], [0, 1]])
         shear_object = np.dot(object, shear_matrix)
     return shear_object
 
