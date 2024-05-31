@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 def plot_object(object, title):
     plt.figure()
     plt.plot(object[:, 0], object[:, 1])
@@ -33,7 +32,7 @@ def axis_reflection(object, axis):
 
 
 def shear_axis(object, angle, axis):
-    rad_angle = np.radians(-angle)
+    rad_angle = np.radians(angle)
     if axis == "x":
         shear_matrix = np.array([[1, 0], [np.tan(rad_angle), 1]])
         shear_object = np.dot(object, shear_matrix)
@@ -48,6 +47,42 @@ def universal_transformation(object, matrix):
     return transformed_matrix
 
 
+def plot_object_3d(object, title):
+    figure = plt.figure()
+    ax = figure.add_subplot(projection='3d')
+    ax.plot(object[:, 0], object[:, 1], object[:, 2], 'o-')
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    ax.set_title(title)
+    plt.show()
+
+
+def axis_reflection_3d(object, axis):
+    if axis == "x":
+        reflection_matrix = np.array([[1, 0, 0], [0, -1, 0], [0, 0, -1]])
+    elif axis == "y":
+        reflection_matrix = np.array([[-1, 0, 0], [0, 1, 0], [0, 0, -1]])
+    elif axis == "z":
+        reflection_matrix = np.array([[-1, 0, 0], [0, -1, 0], [0, 0, 1]])
+    reflected_object = np.dot(object, reflection_matrix)
+    return reflected_object
+
+
+def shear_axis_3d(object, angle, axis):
+    rad_angle = np.radians(angle)
+    if axis == "x":
+        shear_matrix = np.array([[1, 0, 0], [np.tan(rad_angle), 1, 0], [np.tan(rad_angle), 0, 1]])
+        shear_object = np.dot(object, shear_matrix)
+    elif axis == "y":
+        shear_matrix = np.array([[1, np.tan(rad_angle), 0], [0, 1, 0], [0, np.tan(rad_angle), 1]])
+        shear_object = np.dot(object, shear_matrix)
+    elif axis == "z":
+        shear_matrix = np.array([[1, 0, np.tan(rad_angle)],[0, 1, np.tan(rad_angle)], [0, 0, 1]])
+        shear_object = np.dot(object, shear_matrix)
+    return shear_object
+
+
 batman_figure = np.array([
     [0, 0], [1, 0.2], [0.4, 1], [0.5, 0.4],
     [0, 0.8], [-0.5, 0.4], [-0.4, 1], [-1, 0.2], [0, 0]])
@@ -59,7 +94,7 @@ flower_figure = np.array([
 
 # Об'єкти без перетворень
 
-plot_object(batman_figure, "Batman")
+# plot_object(batman_figure, "Batman")
 # plot_object(flower_figure, "Flower")
 # ------------------------------------
 # Об'єкти обернені на певний кут
@@ -112,3 +147,23 @@ plot_object(batman_figure, "Batman")
 # transformed_batman = universal_transformation(batman_figure, custom_matrix)
 # plot_object(transformed_batman, "Transformed batman with custom matrix")
 # ------------------------------------
+# three_dimensional
+
+pyramid_3d = np.array([
+    [0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 0],
+    [0.5, 0.5, 1], [1, 1, 0], [0.5, 0.5, 1], [1, 0, 0],
+    [0.5, 0.5, 1], [0, 1, 0]
+])
+# Об'єкт без перетворень
+
+# plot_object_3d(pyramid_3d, "3D Pyramid")
+# ------------------------------------
+# Об'єкти відзеркалений за певної осі
+
+# reflected_3d_pyramid = axis_reflection_3d(pyramid_3d, "x")
+# plot_object_3d(reflected_3d_pyramid, "Reflected 3D Pyramid")
+# ------------------------------------
+# Нахил певної осі координат
+
+# shear_pyramid_3d = shear_axis_3d(pyramid_3d, 45, "x")
+# plot_object_3d(shear_pyramid_3d, "Shear Pyramid x-axis")
